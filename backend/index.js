@@ -77,6 +77,38 @@ app.get('/books/:id', async (request, response) => {
     }
 });
 
+// Route for update
+app.put('/books/:id', async (request, response) => {
+    try {
+        if(
+            !request.body.title ||
+            !request.body.author ||
+            !request.body.publishYear
+        ) {
+            return response.status(400).send({
+                message: 'Send all required fields: title, author, publishYear',
+            })
+        }
+
+        // the needed id
+        const { id } = request.params;
+
+        // the result of the query
+        const result = await Book.findByIdAndUpdate(id, request.body);
+
+        if(!result) {
+            return response.status(404).json({ message: 'Book not found' });
+        }
+
+        return response.status(200).send({ message: 'Book updated successfuly' });
+
+    } catch (error) {
+        console.log(error.message);
+        response.status(500).send({ message: error.message });
+    }
+});
+
+
 // ma bdd
 mongoose 
     .connect(mongoDBURL)
@@ -90,3 +122,5 @@ mongoose
     .catch((error) => {
         console.log(error)
     });
+
+    // 16:31 //
