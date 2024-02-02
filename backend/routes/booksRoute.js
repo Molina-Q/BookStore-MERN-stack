@@ -97,7 +97,7 @@ router.put('/:id', async (request, response) => {
 });
 
 // Route for delete
-router.delete('//:id', async (request, response) => {
+router.delete('/:id', async (request, response) => {
     try {
       const { id } = request.params;
 
